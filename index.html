@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Tic Tac Toe</title>
+</head>
+<body>
+
+    <div id="game">
+        <main class="game-cont hidden">
+            <div class="game-header">
+                <div id="playerX-cont" class="player-scores row-border">
+                    <h1 id="playerX-name">X :</h1>
+                    <h1 id="playerX-score">0</h1>
+                </div>
+                <div class="player-scores">
+                    <h1 id="score-text"></h1>
+                </div>
+                <div id="playerO-cont" class="player-scores">
+                    <h1 id="playerO-name">O :</h1>
+                    <h1 id="playerO-score">0</h1>
+                </div>
+            </div>
+
+            <div class="tiles-cont">
+                <div class="tile flex-center" id="1"></div>
+                <div class="tile c-center flex-center" id="2"></div>
+                <div class="tile flex-center" id="3"></div>
+                <div class="tile r-center flex-center" id="4"></div>
+                <div class="tile center flex-center" id="5"></div>
+                <div class="tile r-center flex-center" id="6"></div>
+                <div class="tile flex-center" id="7"></div>
+                <div class="tile c-center flex-center" id="8"></div>
+                <div class="tile flex-center" id="9"></div>
+            </div>
+        </main>
+    
+        <div class="game-mode player-screen">
+            <div class="game-title">
+                <h1 class="title-left">Tic</h1>
+                <h1 class="title-center">Tac</h1>
+                <h1 class="title-right">Toe</h1>
+            </div>
+            <button class="input-btn" name="player">vs Player</button>
+            <button class="input-btn" name="computer">vs Computer</button>
+        </div>
+
+    </div>
+
+    <footer>
+        <h1><a href="https://github.com/tomcodedthis" target="_blank">@tomcodedthis </a></h1>
+    </footer>
+
+    <script src="script.js" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+:root {
+    --black: #100c08;
+    --dark-black: #212121;
+    --white: #eeeeee;
+    --dark-white: #ededed;
+    --grey: #3f3f3f;
+    font-size: 18px;
+}
+* {
+    margin: 0;
+    padding: 0;
+    color: var(--white);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+body {
+    width: clamp(750px, 100vw, 1500px);
+    height: clamp(1000px, 100vh, 1500px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    background-color: var(--black);
+}
+footer {
+    justify-self: center;
+    border: solid var(--white);
+    border-width: 0 0 3px 0;
+}
+#game {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--white);
+    min-width: 600px;
+    min-height: 750px;
+    background-color: var(--dark-black);
+}
+    .player-screen {
+        width: 600px;
+        height: 400px;
+        display: grid;
+        grid-template-rows: 2fr repeat(2, 1fr);
+        align-items: center;
+        justify-content: center;
+    }
+    .game-title {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+        .game-title h1 {
+            font-size: 4.4rem;
+        }
+        .title-left {
+            animation: flash 1s linear 0s infinite;
+        }
+        .title-center {
+            animation: flash 1s linear 0.1s infinite;
+        }
+        .title-right {
+            animation: flash 1s linear 0.2s infinite;
+        }
+        @keyframes flash {
+            0% {
+                visibility: hidden;
+            }
+            50% {
+                visibility: hidden;
+            }
+            100% {
+                visibility: visible;
+            }
+        }
+        .input-btn {
+            background-color: var(--dark-black);
+            border: solid var(--white);
+            border-width: 0;
+            padding: 10px 30px;
+            font-size: 2.2rem;
+            cursor: pointer;
+            align-self: flex-start;
+        }
+            .input-btn:hover {
+                border-width: 0 5px;
+            }
+    .player-form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+        margin-top: 20%;
+    }
+        .player-form fieldset {
+            display: grid;
+            grid-template-columns: 1fr 5fr;
+            align-items: center;
+            gap: 10px;
+            font-size: 2.4rem;
+            border: none;
+        }
+            .player-form fieldset input {
+                width: 250px;
+                background-color: var(--dark-black);
+                color: var(--white);
+                border: 3px solid var(--white);
+                padding: 10px 15px;
+                font-size: 1.6rem;
+                border-radius: 10px;
+            }
+                .player-form fieldset input:focus {
+                    outline: none;
+                }
+        .player-form input[type='submit'] {
+            align-self: flex-start;
+            width: 100%;
+        }
+    .game-cont {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--black);
+            padding: 20px;
+        }
+        .player-scores {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 0 20px;
+            border: solid var(--black);
+            border-width: 0 7px;
+        }
+        #score-text  {
+            font-size: 2rem;
+        }
+            .row-border {
+                border-color: var(--white);
+            }
+        .tiles-cont {
+            display: grid;
+            grid-template-columns: repeat(3, 180px);
+            grid-template-rows: repeat(3, 180px);
+            cursor: url(./images/target_w.png) 50 50, auto;
+        }
+            .tile {
+                font-size: 7.5rem;
+                border: 0 solid var(--white);
+            }
+                .tile:hover {
+                    background-color: var(--grey);
+                }
+                .c-center {
+                    border-width: 0 5px;
+                }
+                .r-center {
+                    border-width: 5px 0;
+                }
+                .center {
+                    border-width: 5px; 
+                }
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hidden {
+    display: none;
+}
+h1 {
+    font-size: 3rem;
+    text-align: center;
+}
+    h1 a {
+        font-size: 2.2rem;
+        text-decoration: none;
+    }
