@@ -82,6 +82,8 @@ const inputValue = (e) => {     // Adds X or O to each tile
 
         tileEntries = ['', '', '', '', '', '', '', '' , ''];
 
+        return
+
     } else if (checkDraw()) {
 
         scoreText.forEach(score => score.innerHTML = `Draw`);
@@ -99,6 +101,8 @@ const inputValue = (e) => {     // Adds X or O to each tile
         }, 1000);
 
         tileEntries = ['', '', '', '', '', '', '', '' , ''];
+
+        return
 
     } else if (currentPlayer === 'X') {
 
@@ -127,8 +131,8 @@ function computerClick() {
         let tile = tiles[Math.floor(Math.random() * 9)];
 
         if (tile.innerHTML === '') { return setTimeout(() => {tile.click(tile)}, 200) }
-        
-        computerClick();
+
+        return computerClick();
 
     }
 
@@ -199,8 +203,8 @@ function processClick(e) {
 
 function setScores() {
 
-    playerXCont.forEach(cont => cont.querySelector('#playerX-score').innerHTML = `${playerXScore}`);
-    playerOCont.forEach(cont => cont.querySelector('#playerO-score').innerHTML = `${playerOScore}`);
+    playerXCont.forEach(cont => cont.querySelector('.playerX-score').innerHTML = `${playerXScore}`);
+    playerOCont.forEach(cont => cont.querySelector('.playerO-score').innerHTML = `${playerOScore}`);
 
 }
 
