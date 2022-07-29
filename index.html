@@ -10,16 +10,26 @@
 <body>
 
     <div id="game">
-        <main class="game-cont hidden">
+        <div class="game-mode player-screen">
+            <div class="game-title">
+                <h1 class="title-left">Tic</h1>
+                <h1 class="title-center">Tac</h1>
+                <h1 class="title-right">Toe</h1>
+            </div>
+            <button class="input-btn" name="player">vs Player</button>
+            <button class="input-btn" name="computer">vs Computer</button>
+        </div>
+
+        <div class="player-cont game hidden">
             <div class="game-header">
-                <div id="playerX-cont" class="player-scores row-border">
+                <div class="playerX-cont player-scores row-border">
                     <h1 id="playerX-name">X :</h1>
                     <h1 id="playerX-score">0</h1>
                 </div>
                 <div class="player-scores">
-                    <h1 id="score-text"></h1>
+                    <h1 class="score-text"></h1>
                 </div>
-                <div id="playerO-cont" class="player-scores">
+                <div class="playerO-cont player-scores">
                     <h1 id="playerO-name">O :</h1>
                     <h1 id="playerO-score">0</h1>
                 </div>
@@ -36,16 +46,39 @@
                 <div class="tile c-center flex-center" id="8"></div>
                 <div class="tile flex-center" id="9"></div>
             </div>
-        </main>
-    
-        <div class="game-mode player-screen">
-            <div class="game-title">
-                <h1 class="title-left">Tic</h1>
-                <h1 class="title-center">Tac</h1>
-                <h1 class="title-right">Toe</h1>
+        </div>
+
+        <div class="difficulty-cont flex-center hidden">
+            <button class="input-btn" name="easy">Easy</button>
+            <button class="input-btn" name="medium">Medium</button>
+            <button class="input-btn" name="impossible">Impossible</button>
+        </div>
+
+        <div class="computer-cont game hidden">
+            <div class="game-header">
+                <div class="playerX-cont player-scores row-border">
+                    <h1 id="playerX-name">X :</h1>
+                    <h1 id="playerX-score">0</h1>
+                </div>
+                <div class="player-scores">
+                    <h1 class="score-text"></h1>
+                </div>
+                <div class="playerO-cont player-scores">
+                    <h1 id="playerO-name">O :</h1>
+                    <h1 id="playerO-score">0</h1>
+                </div>
             </div>
-            <button class="input-btn" name="player">vs Player</button>
-            <button class="input-btn" name="computer">vs Computer</button>
+            <div class="tiles-cont">
+                <div class="tile flex-center" id="1"></div>
+                <div class="tile c-center flex-center" id="2"></div>
+                <div class="tile flex-center" id="3"></div>
+                <div class="tile r-center flex-center" id="4"></div>
+                <div class="tile center flex-center" id="5"></div>
+                <div class="tile r-center flex-center" id="6"></div>
+                <div class="tile flex-center" id="7"></div>
+                <div class="tile c-center flex-center" id="8"></div>
+                <div class="tile flex-center" id="9"></div>
+            </div>
         </div>
 
     </div>

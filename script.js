@@ -1,11 +1,18 @@
-const tiles = document.querySelectorAll('.tile');
+let tiles = document.querySelectorAll('.tile');
 const inputBtns = document.querySelectorAll('.input-btn');
-const gameCont = document.querySelector('.game-cont');
-const gameMode = document.querySelector('.game-mode');
+
+const gameModeCont = document.querySelector('.game-mode');
+const playerCont = document.querySelector('.player-cont');
+const computerCont = document.querySelector('.computer-cont');
+const difficultyCont = document.querySelector('.difficulty-cont');
+
+const playerTiles = playerCont.querySelectorAll('.tile');
+const computerTiles = computerCont.querySelectorAll('.tile');
+
 const inputForm = document.querySelector('#name-form');
-const playerXCont = document.querySelector('#playerX-cont');
-const playerOCont = document.querySelector('#playerO-cont');
-const scoreText = document.querySelector('#score-text');
+const playerXCont = document.querySelectorAll('.playerX-cont');
+const playerOCont = document.querySelectorAll('.playerO-cont');
+const scoreText = document.querySelectorAll('.score-text');
 
 const winningLines = [
     [0, 1, 2],
@@ -24,6 +31,8 @@ let playerO;
 let playerXScore = 0;
 let playerOScore = 0;
 let tileEntries = ['', '', '', '', '', '', '', '' , ''];
+let gameMode;
+let difficulty;
 
 const Person = function(name) {
 
@@ -34,6 +43,8 @@ const Person = function(name) {
 }
 
 const inputValue = (e) => {     // Adds X or O to each tile
+
+    tiles = document.querySelectorAll('.tile');
 
     if (e.target.innerHTML != '') {
         
@@ -46,62 +57,78 @@ const inputValue = (e) => {     // Adds X or O to each tile
         tileEntries.shift();
         tileEntries.push(currentPlayer);
 
-        if (checkWin()) {
+    }
 
-            scoreText.innerHTML = `${currentPlayer} Won`;
+    if (checkWin()) {
 
-            playerXCont.classList.remove('row-border');
-            playerOCont.classList.remove('row-border');
+        scoreText.forEach(score => score.innerHTML = `${currentPlayer} Won`);
 
-            if (currentPlayer === 'X') { playerXScore++ } else { playerOScore++ }
-            
-            setScores();
-            setTimeout(() => {
-    
-                tiles.forEach(tile => tile.innerHTML = ''); 
-                scoreText.innerHTML = ``;
-    
-                currentPlayer = 'X';
-    
-                playerXCont.classList.add('row-border');
-    
-            }, 1000);
-    
-            tileEntries = ['', '', '', '', '', '', '', '' , ''];
+        playerXCont.forEach(cont => cont.classList.remove('row-border'));
+        playerOCont.forEach(cont => cont.classList.remove('row-border'));
 
-        } else if (checkDraw()) {
+        if (currentPlayer === 'X') { playerXScore++ } else { playerOScore++ }
+        
+        setScores();
+        setTimeout(() => {
 
-            scoreText.innerHTML = `Draw`;
-
-            playerXCont.classList.remove('row-border');
-            playerOCont.classList.remove('row-border');
-
-            setTimeout(() => {
-
-                tiles.forEach(tile => tile.innerHTML = ''); 
-                scoreText.innerHTML = ``;
-
-                playerXCont.classList.add('row-border');
-
-            }, 1000);
-
-            tileEntries = ['', '', '', '', '', '', '', '' , ''];
-
-        } else if (currentPlayer === 'X') {
-
-            currentPlayer = 'O';
-
-            playerXCont.classList.remove('row-border');
-            playerOCont.classList.add('row-border');
-
-        } else {
+            tiles.forEach(tile => tile.innerHTML = '');
+            scoreText.forEach(score => score.innerHTML = ``);
 
             currentPlayer = 'X';
 
-            playerXCont.classList.add('row-border');
-            playerOCont.classList.remove('row-border');
+            playerXCont.forEach(cont => cont.classList.add('row-border'));
 
-        }
+        }, 1000);
+
+        tileEntries = ['', '', '', '', '', '', '', '' , ''];
+
+    } else if (checkDraw()) {
+
+        scoreText.forEach(score => score.innerHTML = `Draw`);
+
+        playerXCont.forEach(cont => cont.classList.remove('row-border'));
+        playerOCont.forEach(cont => cont.classList.remove('row-border'));
+
+        setTimeout(() => {
+
+            tiles.forEach(tile => tile.innerHTML = ''); 
+            scoreText.forEach(score => score.innerHTML = ``);
+
+            playerXCont.forEach(cont => cont.classList.add('row-border'));
+
+        }, 1000);
+
+        tileEntries = ['', '', '', '', '', '', '', '' , ''];
+
+    } else if (currentPlayer === 'X') {
+
+        currentPlayer = 'O';
+
+        playerXCont.forEach(cont => cont.classList.remove('row-border'));
+        playerOCont.forEach(cont => cont.classList.add('row-border'));
+
+    } else {
+
+        currentPlayer = 'X';
+
+        playerXCont.forEach(cont => cont.classList.add('row-border'));
+        playerOCont.forEach(cont => cont.classList.remove('row-border'));
+
+    }
+
+    setTimeout(() => { if (gameMode === 'computer' && currentPlayer === 'O') { computerClick() } }, 400)
+
+}
+
+function computerClick() {
+
+    if (difficulty === 'easy') {
+
+        let tile = tiles[Math.floor(Math.random() * 9)];
+
+        if (tile.innerHTML === '') { return setTimeout(() => {tile.click(tile)}, 200) }
+        
+        computerClick();
 
     }
 
@@ -143,21 +170,37 @@ function processClick(e) {
 
     if (e.target.name === 'player') {
 
-        gameMode.classList.add('hidden');
-        setTimeout(() => { gameCont.classList.remove('hidden') }, 250)
+        gameMode = 'player';
+
+        playerTiles.forEach(tile => tile.classList.add('tile'))
+        computerTiles.forEach(tile => tile.classList.remove('tile'))
+
+        gameModeCont.classList.add('hidden');
+        setTimeout(() => { playerCont.classList.remove('hidden') }, 250)
 
     } else if (e.target.name === 'computer') {
 
-        console.log('comp')
+        gameMode = 'computer';
 
+        playerTiles.forEach(tile => tile.classList.remove('tile'))
+        computerTiles.forEach(tile => tile.classList.add('tile'))
+
+        gameModeCont.classList.add('hidden');
+        setTimeout(() => { difficultyCont.classList.remove('hidden') }, 250)
+
+    } else if (e.target.name === 'easy') {
+
+        difficulty = 'easy';
+        difficultyCont.classList.add('hidden');
+        setTimeout(() => { computerCont.classList.remove('hidden') }, 250)
     }
 
 }
 
 function setScores() {
 
-    playerXCont.querySelector('#playerX-score').innerHTML = `${playerXScore}`;
-    playerOCont.querySelector('#playerO-score').innerHTML = `${playerOScore}`;
+    playerXCont.forEach(cont => cont.querySelector('#playerX-score').innerHTML = `${playerXScore}`);
+    playerOCont.forEach(cont => cont.querySelector('#playerO-score').innerHTML = `${playerOScore}`);
 
 }
 
