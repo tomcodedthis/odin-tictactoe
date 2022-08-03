@@ -20,54 +20,36 @@
             <button class="input-btn" name="computer">vs Computer</button>
         </div>
 
-        <div class="player-cont game hidden">
-            <div class="game-header">
-                <div class="playerX-cont player-scores row-border">
-                    <h1 class="playerX-name">X :</h1>
-                    <h1 class="playerX-score">0</h1>
-                </div>
-                <div class="player-scores">
-                    <h1 class="score-text"></h1>
-                </div>
-                <div class="playerO-cont player-scores">
-                    <h1 class="playerO-name">O :</h1>
-                    <h1 class="playerO-score">0</h1>
-                </div>
-            </div>
-
-            <div class="tiles-cont">
-                <div class="tile flex-center" id="1"></div>
-                <div class="tile c-center flex-center" id="2"></div>
-                <div class="tile flex-center" id="3"></div>
-                <div class="tile r-center flex-center" id="4"></div>
-                <div class="tile center flex-center" id="5"></div>
-                <div class="tile r-center flex-center" id="6"></div>
-                <div class="tile flex-center" id="7"></div>
-                <div class="tile c-center flex-center" id="8"></div>
-                <div class="tile flex-center" id="9"></div>
-            </div>
-        </div>
-
         <div class="difficulty-cont flex-center hidden">
             <button class="input-btn" name="easy">Easy</button>
             <button class="input-btn" name="medium">Medium</button>
             <button class="input-btn" name="impossible">Impossible</button>
         </div>
 
-        <div class="computer-cont game hidden">
+        <div class="game-cont game hidden">
+
             <div class="game-header">
-                <div class="playerX-cont player-scores row-border">
-                    <h1 class="playerX-name">X :</h1>
-                    <h1 class="playerX-score">0</h1>
+                <div class="game-scores">
+                    <div class="playerX-cont player-scores flex-center row-border">
+                        <h1 class="playerX-name">X :</h1>
+                        <h1 class="playerX-score">0</h1>
+                    </div>
+                    <div class="player-scores flex-center">
+                        <h1 class="score-text"></h1>
+                    </div>
+                    <div class="playerO-cont player-scores flex-center">
+                        <h1 class="playerO-name">O :</h1>
+                        <h1 class="playerO-score">0</h1>
+                    </div>
                 </div>
-                <div class="player-scores">
-                    <h1 class="score-text"></h1>
-                </div>
-                <div class="playerO-cont player-scores">
-                    <h1 class="playerO-name">O :</h1>
-                    <h1 class="playerO-score">0</h1>
+                <div class="controls-cont flex-center">
+                    <button class="input-btn" name="home">Home</button>
+                    <button class="input-btn" name="reset">Reset</button>
+                    <img src="./images/unmute.png" alt="unmute" class="unmute input-btn" name="volume">
+                    <img src="./images/mute.png" alt="mute" class="mute input-btn hidden" name="volume">
                 </div>
             </div>
+
             <div class="tiles-cont">
                 <div class="tile flex-center" id="1"></div>
                 <div class="tile c-center flex-center" id="2"></div>
@@ -86,6 +68,12 @@
     <footer>
         <h1><a href="https://github.com/tomcodedthis" target="_blank">@tomcodedthis </a></h1>
     </footer>
+
+    <audio src="./audio/cheer.wav" class="cheer"></audio>
+    <audio src="./audio/click.wav" class="click"></audio>
+    <audio src="./audio/gun_1.wav" class="gun"></audio>
+    <audio src="./audio/gun_2.wav" class="gun"></audio>
+    <audio src="./audio/gun_3.wav" class="gun"></audio>
 
     <script src="script.js" type="text/javascript"></script>
 </body>

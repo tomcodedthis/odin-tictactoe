@@ -1,38 +1,29 @@
-let tiles = document.querySelectorAll('.tile');
+const tiles = document.querySelectorAll('.tile');
 const inputBtns = document.querySelectorAll('.input-btn');
 
 const gameModeCont = document.querySelector('.game-mode');
-const playerCont = document.querySelector('.player-cont');
-const computerCont = document.querySelector('.computer-cont');
 const difficultyCont = document.querySelector('.difficulty-cont');
+const gameCont = document.querySelector('.game-cont');
 
-const playerTiles = playerCont.querySelectorAll('.tile');
-const computerTiles = computerCont.querySelectorAll('.tile');
-
-const inputForm = document.querySelector('#name-form');
-const playerXCont = document.querySelectorAll('.playerX-cont');
-const playerOCont = document.querySelectorAll('.playerO-cont');
+const playerXCont = document.querySelector('.playerX-cont');
+const playerOCont = document.querySelector('.playerO-cont');
 const scoreText = document.querySelectorAll('.score-text');
 
 const winningLines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],
+    [0, 4, 8], [2, 4, 6]
 ];
 
-let currentPlayer = 'X';
-let playerX;
-let playerO;
-let playerXScore = 0;
-let playerOScore = 0;
-let tileEntries = ['', '', '', '', '', '', '', '' , ''];
 let gameMode;
 let difficulty;
+let playerXScore = 0;
+let playerOScore = 0;
+
+let currentPlayer = 'X';
+let prevTile;
+let xTiles = [];
+let oTiles = [];
 
 const Person = function(name) {
 
@@ -44,79 +35,59 @@ const Person = function(name) {
 
 const inputValue = (e) => {     // Adds X or O to each tile
 
-    tiles = document.querySelectorAll('.tile');
+    const guns = document.querySelectorAll('.gun');
+    const random = Math.floor(Math.random() * 3)
 
-    if (e.target.innerHTML != '') {
+    prevTile = e.target.id - 1;
+
+    if (e.target.textContent != '') {
         
         return
     
     } else {
 
-        e.target.innerHTML = currentPlayer;
+        e.target.textContent = currentPlayer;
 
-        tileEntries.shift();
-        tileEntries.push(currentPlayer);
+        guns[random].currentTime = 0;
+        guns[random].play();
 
     }
 
     if (checkWin()) {
 
-        scoreText.forEach(score => score.innerHTML = `${currentPlayer} Won`);
-
-        playerXCont.forEach(cont => cont.classList.remove('row-border'));
-        playerOCont.forEach(cont => cont.classList.remove('row-border'));
+        document.querySelector('.cheer').currentTime = 0
+        document.querySelector('.cheer').play()
+        scoreText.forEach(score => score.textContent = `${currentPlayer} Won`);
 
         if (currentPlayer === 'X') { playerXScore++ } else { playerOScore++ }
-        
-        setScores();
-        setTimeout(() => {
 
-            tiles.forEach(tile => tile.innerHTML = '');
-            scoreText.forEach(score => score.innerHTML = ``);
-
-            currentPlayer = 'X';
-
-            playerXCont.forEach(cont => cont.classList.add('row-border'));
-
-        }, 1000);
-
-        tileEntries = ['', '', '', '', '', '', '', '' , ''];
+        reset();
 
         return
 
     } else if (checkDraw()) {
 
-        scoreText.forEach(score => score.innerHTML = `Draw`);
+        scoreText.forEach(score => score.textContent = `Draw`);
 
-        playerXCont.forEach(cont => cont.classList.remove('row-border'));
-        playerOCont.forEach(cont => cont.classList.remove('row-border'));
-
-        setTimeout(() => {
-
-            tiles.forEach(tile => tile.innerHTML = ''); 
-            scoreText.forEach(score => score.innerHTML = ``);
-
-            playerXCont.forEach(cont => cont.classList.add('row-border'));
-
-        }, 1000);
-
-        tileEntries = ['', '', '', '', '', '', '', '' , ''];
+        reset();
 
         return
 
     } else if (currentPlayer === 'X') {
 
+        xTiles.push(prevTile);
         currentPlayer = 'O';
 
-        playerXCont.forEach(cont => cont.classList.remove('row-border'));
-        playerOCont.forEach(cont => cont.classList.add('row-border'));
+        playerXCont.classList.remove('row-border');
+        playerOCont.classList.add('row-border');
 
     } else {
 
+        oTiles.push(prevTile);
         currentPlayer = 'X';
 
-        playerXCont.forEach(cont => cont.classList.add('row-border'));
-        playerOCont.forEach(cont => cont.classList.remove('row-border'));
+        playerXCont.classList.add('row-border');
+        playerOCont.classList.remove('row-border');
 
     }
 
@@ -126,16 +97,69 @@ const inputValue = (e) => {     // Adds X or O to each tile
 
 function computerClick() {
 
+    let tile;
+    let remainingLines = [];
+
     if (difficulty === 'easy') {
 
-        let tile = tiles[Math.floor(Math.random() * 9)];
+        tile = tiles[Math.floor(Math.random() * 9)];
 
-        if (tile.innerHTML === '') { return setTimeout(() => {tile.click(tile)}, 200) }
+        if (tile.textContent === '') { return setTimeout(() => {tile.click(tile)}, 200) }
 
         return computerClick();
 
+    } else if (difficulty === 'medium') {
+
+        winningLines.forEach(line => {
+
+            if (compareArrays(line, xTiles)) { remainingLines.push(line) }
+
+        })
+
+        if (remainingLines.length > 0) {
+
+            remainingLines.some(line => {
+
+                if (line.some(t => {
+
+                    if (tiles[t].textContent === '') {
+
+                        tiles[t].click()
+                        return true
+
+                    }
+                })) { return true }
+
+            })
+
+        } else {        // If there are no remaining lines
+
+            let on = true;
+
+            tiles.forEach(tile => {
+
+                if (tile.textContent === '' && on) {
+
+                    on = false;
+                    tile.click();
+                    return
+
+                }
+
+            })
+
+        }
+
+    } else if (difficulty === 'impossible') {
+
     }
 
+    function compareArrays(line, xTiles) {       // Checks what winning lines remain
+
+        return xTiles.every(value => {
+            return line.includes(value);
+            });
+    }
 }
 
 function checkWin() {
@@ -144,7 +168,7 @@ function checkWin() {
 
         return lines.every(index => {
 
-            return tiles[index].innerHTML.match(currentPlayer)
+            return tiles[index].textContent.match(currentPlayer)
 
         })
 
@@ -160,34 +184,65 @@ function checkWin() {
 
 function checkDraw() {
 
-    if (tileEntries.every(tile => { return tile != '' && tile.length > 0 })) {
+    let tileEntries = []
 
-        return true
-    
-    }
+    tiles.forEach(tile => {
+        
+        if (tile.textContent != '' ) {
+
+            tileEntries.push(tile);
+            
+        }
+    })
+
+    if (tileEntries.length === 9) { return true }
 
     return false
 
 }
 
+function setScores() {
+
+    playerXCont.querySelector('.playerX-score').textContent = `${playerXScore}`;
+    playerOCont.querySelector('.playerO-score').textContent = `${playerOScore}`;
+
+}
+
+function reset() {
+
+    playerXCont.classList.remove('row-border');
+    playerOCont.classList.remove('row-border');
+
+    setScores();
+    setTimeout(() => {
+
+        tiles.forEach(tile => tile.textContent = '');
+        scoreText.forEach(score => score.textContent = ``);
+
+        currentPlayer = 'X';
+        xTiles = [];
+
+        playerXCont.classList.add('row-border');
+
+    }, 1000);
+
+}
+
 function processClick(e) {
+
+    document.querySelector('.click').currentTime = 0
+    document.querySelector('.click').play()
 
     if (e.target.name === 'player') {
 
         gameMode = 'player';
 
-        playerTiles.forEach(tile => tile.classList.add('tile'))
-        computerTiles.forEach(tile => tile.classList.remove('tile'))
-
         gameModeCont.classList.add('hidden');
-        setTimeout(() => { playerCont.classList.remove('hidden') }, 250)
+        setTimeout(() => { gameCont.classList.remove('hidden') }, 250)
 
     } else if (e.target.name === 'computer') {
 
         gameMode = 'computer';
-
-        playerTiles.forEach(tile => tile.classList.remove('tile'))
-        computerTiles.forEach(tile => tile.classList.add('tile'))
 
         gameModeCont.classList.add('hidden');
         setTimeout(() => { difficultyCont.classList.remove('hidden') }, 250)
@@ -196,15 +251,55 @@ function processClick(e) {
 
         difficulty = 'easy';
         difficultyCont.classList.add('hidden');
-        setTimeout(() => { computerCont.classList.remove('hidden') }, 250)
+        setTimeout(() => { gameCont.classList.remove('hidden') }, 250)
+
+    } else if (e.target.name === 'medium') {
+
+        difficulty = 'medium';
+        difficultyCont.classList.add('hidden');
+        setTimeout(() => { gameCont.classList.remove('hidden') }, 250)
+
+    } else if (e.target.name === 'impossible') {
+
+        return
+
+    } else if (e.target.name === 'home') {
+
+        gameCont.classList.add('hidden');
+        setTimeout(() => { gameModeCont.classList.remove('hidden') }, 250)
+
+        playerXScore = 0;
+        playerOScore = 0;
+        reset();
+
+    } else if (e.target.name === 'reset') {
+
+        playerXScore = 0;
+        playerOScore = 0;
+        reset();
+
+    } else if (e.target.name === 'volume') {
+
+        const unmute = document.querySelector('.unmute');
+        const mute = document.querySelector('.mute');
+
+        if (e.target.alt === 'unmute') {
+
+            unmute.classList.add('hidden');
+            mute.classList.remove('hidden');
+            
+            document.querySelectorAll('audio').forEach(audio => audio.muted = true)
+
+        } else {
+
+            unmute.classList.remove('hidden');
+            mute.classList.add('hidden');
+
+            document.querySelectorAll('audio').forEach(audio => audio.muted = false)
+
+        }
+
     }
-
-}
-
-function setScores() {
-
-    playerXCont.forEach(cont => cont.querySelector('.playerX-score').innerHTML = `${playerXScore}`);
-    playerOCont.forEach(cont => cont.querySelector('.playerO-score').innerHTML = `${playerOScore}`);
 
 }
 
